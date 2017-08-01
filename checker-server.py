@@ -42,8 +42,9 @@ class HealthCheckServer(BaseHTTPRequestHandler):
         else:
             return 500
        
-    def _statusHealthy(self,status_json):
-        if self.healthy_status == sorted(json.loads(status_json)):
+    def _statusHealthy(self,status):
+        cluster_status = json.loads(status)['status']
+        if cluster_status == "green" or cluster_status == "yellow":
             return True
         else:
             return False

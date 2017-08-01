@@ -15,7 +15,7 @@ def getBrokerStatus():
     elif not current_brokers:
         return '{"status": "red", "reasons": ["all brokers offline"]}'
     else:
-        return '{"status":"yellow","reasons": ["brokers offline: ' + json.dumps(_getOfflineBrokers(expected_brokers, current_brokers)) + '"]}'
+        return '{"status":"yellow","reasons": ["brokers offline: ' + str(_getOfflineBrokers(expected_brokers, current_brokers)) + '"]}'
 
 def _getOfflineBrokers(expected_brokers, current_brokers):
     return set(expected_brokers) - set(current_brokers)
