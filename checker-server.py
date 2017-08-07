@@ -26,7 +26,6 @@ class HealthCheckServer(BaseHTTPRequestHandler):
         s.send_header("Content-type", "text/html")
         s.end_headers()
     def do_GET(s):
-        print('this is the path ' + s.path)
         response_json = s._getResponseJson(s.path)
         response_code = s._getResponseCode(response_json)
 
@@ -40,7 +39,6 @@ class HealthCheckServer(BaseHTTPRequestHandler):
             return cluster_check.getClusterStatus()
         elif path.startswith('/topic/health/'):
             topic = path.split('/topic/health/')[1]
-            print('the topic ' + topic)
             return topic_check.getTopicStatus(topic)
         else:
             return '{"error": "invalid request, check path"}'
@@ -54,7 +52,6 @@ class HealthCheckServer(BaseHTTPRequestHandler):
             return 500
        
     def _statusHealthy(self,status):
-        print("The status " + status)
         cluster_status = json.loads(status)['status']
         if cluster_status == "green" or cluster_status == "yellow":
             return True

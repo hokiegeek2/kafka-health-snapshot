@@ -20,7 +20,6 @@ def getTopicsStatus():
     if out_of_sync_leaders:
         return '{"status": "red", "reasons": ["out of sync leaders"]}'
     elif out_of_sync_followers:
-        print(json.dumps(out_of_sync_followers))
         return '{"status": "yellow", "reasons": ["out of sync followers"]}'
     else:
         return '{"status": "green"}'
@@ -32,7 +31,7 @@ def getTopicStatus(topic):
            return '{"status": "red", "reason": "leader out of sync"}'
        elif 'followers' in oos_topic_replicas:
            followers = oos_topic_replicas['followers']
-           return '{"status": "yellow", "reason": ' + json.dumps(oos_topic_replicas) + '})'
+           return '{"status": "yellow", "reason": "out of sync followers", "details": ' + json.dumps(followers) + '}'
    else:
        return '{"status": "green"}'
 
