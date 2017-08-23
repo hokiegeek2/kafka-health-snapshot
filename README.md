@@ -4,8 +4,8 @@ Provides a REST API for checking the status of a Kafka cluster. REST endpoints p
 
 # Status Designations
 1. green--all brokers up, no under-replicated topic partitions
-2. yellow--one or more brokers down and/or one or more under-replicated follower replicas
-3. red--all brokers down and/or one or more under-replicated leader replicas
+2. yellow--one or more brokers down and/or one or more under-replicated partitions (one or more replicas out of sync)
+3. red--all brokers down and/or one or more out-of-sync leader replicas. A red status meansthat one or more topics cannot be written to or read from.
 
 # REST Endpoints
 /cluster/health -- provides high-level status of cluster
