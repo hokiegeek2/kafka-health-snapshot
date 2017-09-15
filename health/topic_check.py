@@ -26,23 +26,28 @@ def getTopicsStatus():
 
 def getTopicStatus(topic):
    oos_topic_replicas = _getOutOfSyncTopicReplicas(topic)
-   if oos_topic_replicas:
-       if 'leader' in oos_topic_replicas:
-           return '{"status": "red", "reason": "leader out of sync"}'
-       elif 'followers' in oos_topic_replicas:
-           followers = oos_topic_replicas['followers']
-           return '{"status": "yellow", "reason": "out of sync followers", "details": ' + json.dumps(followers) + '}'
+   if 'leader' in oos_topic_replicas:
+       return '{"status": "red", "reason": "leader out of sync"}'
+   elif 'followers' in oos_topic_replicas:
+       followers = oos_topic_replicas['followers']
+       return '{"status": "yellow", "reason": "out of sync followers", "details": ' + json.dumps(followers) + '}'
    else:
        return '{"status": "green"}'
 
 def _getOutOfSyncTopicReplicas(topic):
     partitions = _getPartitions(topic)
     out_of_sync = {}
-    out_of_sync['followers'] = []
+    followers = []
     for partition in partitions:
         oos = _getOutOfSyncReplicas(topic, partition)
         if 'followers' in oos:
-            out_of_sync['followers'] +=  _getOutOfSyncReplicas(topic, partition)['followers'] 
+            followers +=  oos['followers']
+        elif 'leader' in oos:
+            out_of_sync['leader'] = oos['leader']
+    
+    if followers:
+        out_of_sync['followers'] = followers
+    
     return out_of_sync   
 
 def _getOutOfSyncReplicas(topic, partition):
