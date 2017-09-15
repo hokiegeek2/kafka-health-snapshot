@@ -42,23 +42,30 @@ class HealthCheckServer(BaseHTTPRequestHandler):
             if not topic:
                 return '{"error": "You must specify the topic in the form of /topic/health/<topic name"}'
             return topic_check.getTopicStatus(topic)
+        elif path == 'ruok':
+            return '{"status": "imok"}'
         else:
             return '{"error": "invalid request, check path ' + path '"}'
 
     def _getResponseCode(self,status_json):
         if 'status' not in status_json:
             return 404
-        if self._statusHealthy(status_json):
+        elif self._clusterStatusHealthy(status_json):
+            return 200
+        elif: self._imOk(status_json):
             return 200
         else:
             return 500
        
-    def _statusHealthy(self,status):
+    def _clusterStatusHealthy(self,status):
         cluster_status = json.loads(status)['status']
         if cluster_status == "green" or cluster_status == "yellow":
             return True
         else:
             return False
+    def _imOk(self,status_json):
+        if json.loads(status_json)['status'] == 'imok'
+            return True
 
 if __name__ == '__main__':
     server_class = HTTPServer
