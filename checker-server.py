@@ -39,9 +39,11 @@ class HealthCheckServer(BaseHTTPRequestHandler):
             return cluster_check.getClusterStatus()
         elif path.startswith('/topic/health/'):
             topic = path.split('/topic/health/')[1]
+            if not topic:
+                return '{"error": "You must specify the topic in the form of /topic/health/<topic name"}'
             return topic_check.getTopicStatus(topic)
         else:
-            return '{"error": "invalid request, check path"}'
+            return '{"error": "invalid request, check path ' + path '"}'
 
     def _getResponseCode(self,status_json):
         if 'status' not in status_json:
