@@ -42,17 +42,17 @@ class HealthCheckServer(BaseHTTPRequestHandler):
             if not topic:
                 return '{"error": "You must specify the topic in the form of /topic/health/<topic name"}'
             return topic_check.getTopicStatus(topic)
-        elif path == 'ruok':
+        elif path == '/ruok':
             return '{"status": "imok"}'
         else:
-            return '{"error": "invalid request, check path ' + path '"}'
+            return '{"error": "invalid request, check path ' + path + '"}'
 
     def _getResponseCode(self,status_json):
         if 'status' not in status_json:
             return 404
         elif self._clusterStatusHealthy(status_json):
             return 200
-        elif: self._imOk(status_json):
+        elif self._imOk(status_json):
             return 200
         else:
             return 500
@@ -64,7 +64,7 @@ class HealthCheckServer(BaseHTTPRequestHandler):
         else:
             return False
     def _imOk(self,status_json):
-        if json.loads(status_json)['status'] == 'imok'
+        if json.loads(status_json)['status'] == 'imok':
             return True
 
 if __name__ == '__main__':
