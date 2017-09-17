@@ -1,6 +1,6 @@
 # kafka-health-snapshot
-
-Provides a REST API for checking the status of a Kafka cluster. REST endpoints provided for cluster as well as topic and broker-level statuses. kafka-health-snapshot is written in Python and uses REST calls to determine the status of the cluster, the brokers, or 1..n topics
+##Overview
+Provides a REST API for getting a health snapshot of a Kafka cluster. REST endpoints provided for cluster as well as topic and broker-level statuses. kafka-health-snapshot is written in Python and uses REST calls to kafka-rest in order to determine the status of the cluster, the brokers, or 1..n topics
 
 # Status Designations
 1. green--all brokers up, no under-replicated topic partitions
@@ -15,5 +15,5 @@ Provides a REST API for checking the status of a Kafka cluster. REST endpoints p
 kafka-health-snapshot is dependent upon the kafka-rest REST API for Kafka. The kafka-rest server can either be deployed with kafka-health-snapshot or independently.
 
 # Environment Variables
-1. KAFKA_REST_URL='http://hsot:port of kafka-rest server'
-2. KAFKA_BROKERS='{"brokers": [<broker list form kafka-rest>]}'
+1. KAFKA_REST_URL='http://host:port of kafka-rest server'
+2. KAFKA_BROKERS='{"brokers": [<broker list from kafka-rest>]}'
